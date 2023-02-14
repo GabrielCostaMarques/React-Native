@@ -1,14 +1,18 @@
-import { StatusBar } from 'expo-status-bar';
+
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+
+
 import Cesta from './src/telas/Cesta';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Cesta/>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView>  
+    {/*SafeAreaView serve para colocar uma margem de espaço no IOS*/}  
+      <StatusBar/>
+      <Cesta />
+      
+    </SafeAreaView>
   );
 }
 
