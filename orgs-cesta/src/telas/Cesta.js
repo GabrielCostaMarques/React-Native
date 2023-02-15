@@ -11,18 +11,18 @@ const width = Dimensions.get('screen').width; /*Dimensions serve para pegar exat
 export default function Cesta(){
     return<>
     <Image source={topo} style={estilos.topo}/>
-    <Text style={estilos.titulo}>Detalhes da Cesta</Text>
+    <Texto style={estilos.titulo}>Detalhes da Cesta</Texto>
 
 
     <View style={estilos.cesta}>
-        <Text style={estilos.nome}>Cesta de verduras</Text>
+        <Texto style={estilos.nome}>Cesta de verduras</Texto>
         <View style={estilos.fazenda}>
             <Image source={logo} style={estilos.imagemFazenda}></Image>
-            <Text style={estilos.nomeFazenda}>Jenny Jack Farm</Text>
+            <Texto style={estilos.nomeFazenda}>Jenny Jack Farm</Texto>
         </View>
         
         <Texto style={estilos.descricao}>Uma cesta com produtos selecionados cuidadosamente da fazendo direto para sua cozinha</Texto>
-        <Text style={estilos.preco}>R$ 40,00</Text>
+        <Texto style={estilos.preco}>R$ 40,00</Texto>
     </View>    
     </>
 }
@@ -42,7 +42,7 @@ const estilos = StyleSheet.create({
     fontSize: 25,
     lineHeight:26,
     color: "White",
-    fontWeight: "bold",
+    fontWeight:"bold",
     padding: 16,
     marginTop: 25
    },
@@ -68,14 +68,13 @@ const estilos = StyleSheet.create({
     color: "#464646",
     fontSize: 26,
     lineHeight: 42,
-    fontFamily: "MontserratBold"
+    fontFamily: "bold"
    },
 
    nomeFazenda :{
     fontSize: 16,
     lineHeight: 26,
     marginLeft:12,
-    fontFamily: "MontserratRegular"
    },
 
    descricao:{

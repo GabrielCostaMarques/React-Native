@@ -7,12 +7,27 @@ import { Text, StyleSheet } from "react-native";
 
 
 export default function Texto( {children, style} ){
-    return <Text style={[style, estilos.texto]}>{children}</Text>
+
+
+    //técnica para o código saber quando que vai ser aplicado o textoNegrito 
+    let estilo = estilos.texto;
+
+    if (style?.fontWeight ==="bold") { //a "?" serve para o código interpretar "se houver um style ele tem que verificar se está em negrito"
+        estilo=estilos.textoNegrito;
+    }
+
+    return <Text style={[style, estilo]}>{children}</Text>
 }
 
 const estilos =StyleSheet.create({
 
     texto:{
-        fontFamily: "MontserratRegular"
+        fontFamily: "MontserratRegular",
+        fontWeight:"normal"
+    },
+    
+    textoNegrito:{
+        fontFamily: "MontserratBold",
+        fontWeight:"normal"
     }
 })
