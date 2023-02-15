@@ -1,6 +1,7 @@
 
 import React from 'react'
 import { StatusBar, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { useFonts, Montserrat_400Regular, Montserrat_700Bold } from '@expo-google-fonts/montserrat';
 
 
 import Cesta from './src/telas/Cesta';
