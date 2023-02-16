@@ -31,7 +31,6 @@ const estilos = StyleSheet.create({
    topo :{
     width: "100%",
     height: 578/768*width, 
-    fontFamily: "Montserrat"
    },
 
 
@@ -68,7 +67,7 @@ const estilos = StyleSheet.create({
     color: "#464646",
     fontSize: 26,
     lineHeight: 42,
-    fontFamily: "bold"
+    fontWeight: "bold"
    },
 
    nomeFazenda :{

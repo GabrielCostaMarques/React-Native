@@ -11,7 +11,7 @@ export default function App() {
   //função que não deixa a aplicação rodar enquanto a fonte não for carregada
   const [fonteCarregada]=useFonts({
     "MontserratRegular": Montserrat_400Regular,
-    "MontserratBold": Montserrat_700Bold
+    "MontserratBold": Montserrat_700Bold,
 
   })
  

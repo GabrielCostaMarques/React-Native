@@ -12,7 +12,7 @@ export default function Texto( {children, style} ){
     //técnica para o código saber quando que vai ser aplicado o textoNegrito 
     let estilo = estilos.texto;
 
-    if (style?.fontWeight ==="bold") { //a "?" serve para o código interpretar "se houver um style ele tem que verificar se está em negrito"
+    if (style?.fontWeight ==="bold") { //a "?" serve para o código interpretar "se houver um style ele tem que verificar se está em negrito, execute"
         estilo=estilos.textoNegrito;
     }
 
