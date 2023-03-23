@@ -1,78 +1,55 @@
 import React from 'react';
-import {Button, ImageBackground, View, ScrollView, Text, TextInput} from 'react-native';
-import imgCarSale from './assets/car-sale.jpg';
+import {ImageBackground, Text,View,Image,StyleSheet} from 'react-native';
 
-// export default function App() { 
-//   return (
-//     <View>
-//     </View>
-//   )
-// }
+import imgTask from './assets/tasklist.png';
+import imgFlag from './assets/check.png';
+const dataAtual = new Date();
 
-// const App = () => 
-//   <View>
-//   </View>
+const dia=dataAtual.getDate();
+const mes =dataAtual.getMonth(); 
+const ano=dataAtual.getFullYear();
 
-// export default App;
+const formatado=`${dia}/${mes}/${ano}`
+export default()=>
+    <View style={{flex:1}}>
+        <View style={{flex:1}}>
+            <ImageBackground style={{flex:1}} source={imgTask} >
+                <Text>Hoje</Text>
+                <Text>{formatado}</Text>
+            </ImageBackground>
+            <View style={styles.lista}>
+                <View>
+                    <Image source={imgFlag} style={styles.imgFlag}></Image>
+                    <Text>Assistir aulas da faculdade</Text>
+                </View>
+                
 
-class VendaCarrosFormulario extends React.Component { 
-  constructor(props) {
-    super(props)
-    this.state = {marca: "", modelo: "",preco: "", lista: []} 
-  }
-  render () { 
-
-    const listaView=[]
-    this.state.lista.forEach((index,o)=>{ //a key "o" tem que ter um "child" para ser chamado na view (isso deve ser colocado no vs code, no expo funciona normalmente)
-      listaView.push(
-        <View key={o}style={{margin:5,backgroundColor:"#00FF00AA",borderWidth:2}}>
-          <Text>{index.marca}</Text>
-          <Text>{index.modelo}</Text>
-          <Text>{index.preco}</Text>
+                <View>
+                    <Image source={imgFlag} style={styles.imgFlag}></Image>
+                    <Text>Assistir aulas da faculdade</Text>
+                </View>
+                <View>
+                    <Image source={imgFlag} style={styles.imgFlag}></Image>
+                    <Text>Assistir aulas da faculdade</Text>
+                </View>
+                <View>
+                    <Image source={imgFlag} style={styles.imgFlag}></Image>
+                    <Text>Assistir aulas da faculdade</Text>
+                </View>
+            </View>
         </View>
-      )
-    });
-
-    return (
-      <View style={{flex: 1}}>
-        <View style={{flex: 1,
-              backgroundColor: this.props.cor}}>
-              <Text>Marca do veículo</Text>
-              <TextInput value={this.state.marca}onChangeText={(txt)=>{this.setState({marca: txt})}}/>
-
-              <Text>Modelo</Text>
-              <TextInput value={this.state.modelo}onChangeText={(txt)=>{this.setState({modelo: txt})}}/>
-
-              <Text>Preço</Text>
-              <TextInput value={this.state.preco}onChangeText={(txt)=>{this.setState({preco: txt})}}/>
-
-              <Button title="Salvar" onPress={
-                ()=>{
-                  const obj={marca:this.state.marca,
-                            modelo:this.state.modelo,
-                            preco:this.state.preco}
-
-                  this.setState({lista:[...this.state.lista, obj]})
-                }
-              }/>
-        </View>
-        <ScrollView style={{flex: 1, 
-              backgroundColor: "lightcyan"}}>
-              {listaView}
-        </ScrollView>
-      </View>
-    )
-  }
-}
-
-export default () => 
-  <View style={{flex: 1}}>
-    <ImageBackground source={imgCarSale} 
-          resizeMode="center"
-          style={{flex: 1}}>
-      <Text>Venda de carros</Text>
-    </ImageBackground>
-    <View style={{flex: 3}}>
-      <VendaCarrosFormulario cor="white"/>
     </View>
-  </View>
+
+
+const styles =StyleSheet.create({
+    lista:{
+        flexDirection:"row",
+        justifyContent:"s",
+        flex:2
+    },
+
+    imgFlag:{
+       width:30,
+       height:30 
+    }
+})

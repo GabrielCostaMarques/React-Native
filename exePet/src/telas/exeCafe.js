@@ -2,7 +2,9 @@ import React from "react";
 import { View, Text, ImageBackground, Dimensions, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 
 const espaco = Dimensions.get("screen").width
-export default function App() {   
+
+
+export default ()=> {   
     return(
 
     <View style={{flex:1, flexDirection:"column"}}>
