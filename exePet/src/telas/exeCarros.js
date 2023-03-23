@@ -18,8 +18,7 @@ import imgCarSale from './assets/car-sale.jpg';
 class VendaCarrosFormulario extends React.Component { 
   constructor(props) {
     super(props)
-    this.state = {marca: "", modelo: "",
-     preco: "", lista: []} 
+    this.state = {marca: "", modelo: "",preco: "", lista: []} 
   }
 
   render () { 
@@ -41,20 +40,14 @@ class VendaCarrosFormulario extends React.Component {
         <View style={{flex: 1,
               backgroundColor: this.props.cor}}>
               <Text>Marca do veículo</Text>
-              <TextInput value={this.state.marca}
-                  onChangeText={(txt)=>{
-                    this.setState({marca: txt})
-                  }}/>
+              <TextInput value={this.state.marca}onChangeText={(txt)=>{this.setState({marca: txt})}}/>
+
               <Text>Modelo</Text>
-              <TextInput value={this.state.modelo}
-                  onChangeText={(txt)=>{
-                    this.setState({modelo: txt})
-                  }}/>
+              <TextInput value={this.state.modelo}onChangeText={(txt)=>{this.setState({modelo: txt})}}/>
+
               <Text>Preço</Text>
-              <TextInput value={this.state.preco}
-                  onChangeText={(txt)=>{
-                    this.setState({preco: txt})
-                  }}/>
+              <TextInput value={this.state.preco}onChangeText={(txt)=>{this.setState({preco: txt})}}/>
+
               <Button title="Salvar" onPress={
                 ()=>{
                   const obj={marca:this.state.marca,
