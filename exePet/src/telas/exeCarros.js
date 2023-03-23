@@ -20,17 +20,15 @@ class VendaCarrosFormulario extends React.Component {
     super(props)
     this.state = {marca: "", modelo: "",preco: "", lista: []} 
   }
-
   render () { 
 
     const listaView=[]
-    this.state.lista.forEach((o)=>{
+    this.state.lista.forEach((index,o)=>{ //a key "o" tem que ter um "child" para ser chamado na view (isso deve ser colocado no vs code, no expo funciona normalmente)
       listaView.push(
-        <View style={{margin:5,backgroundColor:"#00FF00AA",borderWidth:2}}>
-          <Text>{o.marca}</Text>
-          <Text>{o.modelo}</Text>
-          <Text>{o.preco}</Text>
-
+        <View key={o}style={{margin:5,backgroundColor:"#00FF00AA",borderWidth:2}}>
+          <Text>{index.marca}</Text>
+          <Text>{index.modelo}</Text>
+          <Text>{index.preco}</Text>
         </View>
       )
     });
