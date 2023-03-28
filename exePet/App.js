@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Button, ImageBackground, TextInput } from "react-native";
+import { Text, View, Button, ImageBackground, TextInput, ScrollView, } from "react-native";
 
 import ImgCarro from "./assets/car-sale.jpg";
 
@@ -9,18 +9,34 @@ class FormularioCarro extends React.Component{
         this.state={modelo:"", marca:"",preco:"",lista:[]}
     }
     render(){
+        const listaVisual=[]
+
+        this.state.lista.forEach(i => {
+            const obj= this.state.lista[i]
+            const elementoVisual=
+
+            <View>
+                <Text>Modelo: {obj.modelo}</Text>
+                <Text>Modelo: {obj.marca}</Text>
+                <Text>Modelo: {obj.preco}</Text>
+            </View>
+
+            listaVisual.push(elementoVisual)
+        });
+
         return(
+
             <View>
                 <Text>Modelo do carro</Text>
-                <TextInput placeholder="Digite o modelo" value={this.state.modelo}onChangeText={(txt)=>{
+                <TextInput value={this.state.modelo}onChangeText={(txt)=>{
                     this.setState({modelo:txt})
                 }}/>
                 <Text>Marca do carro</Text>
-                <TextInput placeholder="Digite a marca" value={this.state.marca} onChangeText={(txt)=>{
+                <TextInput value={this.state.marca} onChangeText={(txt)=>{
                     this.setState({marca:txt})
                 }}></TextInput>
                 <Text>Preço do Carro</Text>
-                <TextInput placeholder="Digite o preço" value={this.state.preco} onChangeText={(txt)=>{
+                <TextInput value={this.state.preco} onChangeText={(txt)=>{
                     this.setState({preco:txt})
                 }}></TextInput>
 
@@ -28,9 +44,12 @@ class FormularioCarro extends React.Component{
                     const obj={modelo:this.state.modelo,
                                 marca: this.state.marca,
                                 preco: this.state.preco}
-                    this.setState({...this.state.lista,obj})
-                }}></Button>
+                    this.setState({lista:[...this.state.lista,obj]})
+                }}></Button> 
+                {listaVisual}
             </View>
+
+           
         )
     }
 }
