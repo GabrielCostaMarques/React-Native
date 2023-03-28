@@ -11,7 +11,7 @@ class FormularioCarro extends React.Component{
     render(){
         const listaVisual=[]
 
-        this.state.lista.forEach(i => {
+        for (let i = 0; i < this.state.lista.length; i++) {   
             const obj= this.state.lista[i]
             const elementoVisual=
 
@@ -22,7 +22,7 @@ class FormularioCarro extends React.Component{
             </View>
 
             listaVisual.push(elementoVisual)
-        });
+        };
 
         return(
 
