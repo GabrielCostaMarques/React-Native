@@ -1,23 +1,19 @@
 import React from "react";
 import { View, Text, ImageBackground, Dimensions, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 
+import imgCafe from "../exePet/assets/coffee.png";
+
 const espaco = Dimensions.get("screen").width
 
 
-export default ()=> {   
-    return(
-
-    <View style={{flex:1, flexDirection:"column"}}>
-        <View style ={{flex:1}}>
-            <ImageBackground 
-            style={estilos.imagemCafe}
-            source={require("../exePet/assets/coffee.png")}>
-                <Text style={estilos.titulo}>Café FIAP</Text>
-            </ImageBackground>
-        </View>
-
-
-        <View style={estilos.container}>
+class Login extends React.Component{
+    constructor(props){
+        super(props)
+        this.state={login:"",senha:"",lista:[]}
+    }
+    render(){
+        return(
+            <View style={estilos.container}>
             <View style={estilos.login}>
                 <Text style={estilos.textoLogin}>Login</Text>
                 <Text>Faça o login para continuar</Text>
@@ -48,6 +44,28 @@ export default ()=> {
 
                 <Text style={estilos.signUp}>Signup!</Text>
             </View>
+        </View>
+        )
+    }
+}
+
+
+
+
+
+export default ()=> {   
+    return(
+
+    <View style={{flex:1, flexDirection:"column"}}>
+        <View style ={{flex:1}}>
+            <ImageBackground 
+            style={estilos.imagemCafe}
+            source={require(imgCafe)}>
+                <Text style={estilos.titulo}>Café FIAP</Text>
+            </ImageBackground>
+        </View>
+        <View>
+            <Login/>
         </View>
     </View>
     )
