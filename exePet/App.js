@@ -1,69 +1,52 @@
-<<<<<<< HEAD
-import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-class Botao extends Component {
-  render() {
-    const {
-      title = 'Cadastrar',
-      padding = 10,
-      margin = 10,
-      borderWidth = 10,
-      borderColor = 'black',
-      shadow = true,
-      shadowTexto = false,
-      onPress,
-    } = this.props;
+export default function App() {
+  const [numero, setNumero] = useState(0);
 
-    return (
-        <SafeAreaView>
-            <StatusBar/>
-            <TouchableOpacity style={[styles.botao,{ padding, margin, borderWidth, borderColor, shadow },]}onPress={onPress}>
-                <Text style={[styles.botaoText,{ textShadowRadius: shadowTexto ? 2 : 0 },]}>
-                {title}
-                </Text>
-            </TouchableOpacity>
-        </SafeAreaView>  
-      
-    );
+  const incrementar = () => {
+    setNumero(numero + 1);
   }
+
+  const decrementar = () => {
+    setNumero(numero - 1);
+  }
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.text}>CONTADOR: {numero}</Text>
+      <TouchableOpacity style={styles.button} onPress={incrementar}>
+        <Text style={styles.buttonText}>+</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={decrementar}>
+        <Text style={styles.buttonText}>-</Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-  botao: {
-    alignItems: 'center',
+  container: {
+    flex: 1,
     justifyContent: 'center',
-    borderRadius: 5,
-    backgroundColor: 'red',
+    alignItems: 'center',
+    backgroundColor:'#000'
   },
-  botaoText: {
-    fontSize: 20,
-    color: '#FFF',
-    textShadowColor: 'rgba(0, 0, 0, 0.2)',
-    textShadowOffset: { width: 0, height: 1 },
+  text: {
+    color:'white',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 24,
+  },
+  button: {
+    backgroundColor: '#fff',
+    padding: 25,
+    borderRadius: 8,
+    margin: 12,
+  },
+  buttonText: {
+    color: '#000',
+    fontSize: 40,
+    fontWeight: 'bold',
   },
 });
-
-export default Botao;
-=======
-import React from 'react';
-import { View, SafeAreaView, StatusBar} from 'react-native';
-import Lista from "./src/telas/exe.Lista";
-
-export default function App(){
-   return(
-    <View>    
-        <StatusBar/>
-        <View>
-            <Lista/>         
-        </View>
-    </View>
-
-
-
-
-
-    ) 
-}    
->>>>>>> 65b5e0aec7082abb7a7fcebe9f338a6254c9e198
-
