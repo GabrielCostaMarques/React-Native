@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 
@@ -45,25 +44,4 @@ const styles = StyleSheet.create({
 });
 
 export default Botao;
-=======
-import React from 'react';
-import { View, SafeAreaView, StatusBar} from 'react-native';
-import Lista from "./src/telas/exe.Lista";
-
-export default function App(){
-   return(
-    <View>    
-        <StatusBar/>
-        <View>
-            <Lista/>         
-        </View>
-    </View>
-
-
-
-
-
-    ) 
-}    
->>>>>>> 65b5e0aec7082abb7a7fcebe9f338a6254c9e198
 
