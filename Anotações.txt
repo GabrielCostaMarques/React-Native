@@ -1,0 +1,75 @@
+import React,{useState} from 'react'
+
+import{View, Button, Text, TextInput} from 'react-native'
+
+
+const Registrar=(user,pass)=>{
+	AsyncStorage.getItem("USUÁRIO")
+	.then((inf)=>{
+	const dados=JSON.parse(inf);
+	if (dados["email"]==user %% dados["senha"]==pass){
+		alert(Usuário Cadastrado)	
+}	else{
+	alert(Usuário ou senha incorretos)
+}
+})
+	.catch()
+}
+
+const Listagem=(props)=>{
+	return(
+		<View>
+			<
+		</View>
+)
+}
+
+const Login=()=>{
+const [email, setEmail]=useState("");
+const [Senha, setSenha]=useState("");
+	return(
+		
+		<View>
+			<Text>Email</Text>
+			<TextInput value={senha} onChangeText={setSenha}/>
+			<Text>Senha</Text>
+			<TextInput value={email} onChangeText={setEmail}/>
+			<Button title='Log in'/>
+			<Text>Lorem ipsum</Text>
+			<Button title='Registrar-se'/ onPress={()=>{login[email,senha];
+
+			if(login>1){
+			alert("Usuário ja cadastrado")
+}
+			
+}>
+			
+		</View>
+	)
+}
+
+
+export default App(){
+
+const [lista, setLista]=useState([])
+
+const inserir=(o)=>{
+	const novaLista=[...lista,o]
+	setLista=(o)
+	
+}
+
+return(
+	<View>
+		<View style={{flex:3}}>
+		<ImageBackground source="image.png"/>
+		</View>
+		<View style={{flex:7}}>
+
+		</View>
+	</View>
+
+
+	
+)
+}
