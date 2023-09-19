@@ -1,4 +1,4 @@
-import React, {useContext, useState}from 'react'
+import React, {useContext, useEffect, useState}from 'react'
 import { View,Text,TextInput, Button } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -7,7 +7,7 @@ import axios from 'axios'
 import { Contexto } from './contexto';
 
 const api=axios.create({
-    baseURL: "#"
+    baseURL: "https://databs-b6b35-default-rtdb.firebaseio.com"
 }) 
 
 const Login=()=>{
@@ -19,12 +19,18 @@ const Login=()=>{
         <View style={{flex:1}}>
         <Text>Login</Text>
         <TextInput placeholder='Email' value={email} onChangeText={setEmail}/>
-        <TextInput placeholder='Email' value={senha} onChangeText={setSenha}/>
+        <TextInput placeholder='Senha' value={senha} onChangeText={setSenha}/>
         <Button title='Salvar' onPress={()=>{
             const obj ={email,senha}
             contexto.salvar(obj)}}/>
     </View>    
     )
+}
+
+const Listagem=()=>{
+  <View>
+    <Text>Gabriel</Text>
+  </View>
 }
 
 const {Navigator, Screen} = createBottomTabNavigator();
@@ -33,7 +39,7 @@ const Principal =()=>{
     return(
         <NavigationContainer>
             <Navigator>
-                <Screen name = "Tela Principal" component={Principal}/>
+                <Screen name = "Tela Principal" component={Login}/>
                 <Screen name = "Listagem" component={Listagem}/>
             </Navigator>
         </NavigationContainer>
@@ -42,7 +48,6 @@ const Principal =()=>{
 
 
 export default function App(){
-
     const [lista, setLista]=useState([])
 
     const salvar =(obj)=>{
@@ -59,6 +64,7 @@ export default function App(){
             const listaNova=[]
             for(const chave in resposta.data){
                 const obj=resposta.data[chave]
+                obj.id=chave;
                 listaNova.push(obj)
             }
             setLista(listaNova)
@@ -66,12 +72,16 @@ export default function App(){
         .catch((err)=>{alert("Erro ao ler a lista"+err)})
     }
 
+    useEffect(()=>{
+        lerDados()
+    },[])
+
     return(
         <Contexto.Provider value={{
             salvar,
             lerDados,
-        lista}
-        }>
+            lista
+        }}>
         <View style={{flex:1}}>
             <Principal/>
         </View>
