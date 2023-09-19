@@ -7,53 +7,60 @@ import { Contexto } from "./contexto";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from "@react-navigation/native";
 
-// import ImgMain from "./assets/WalpaperMain.png";
+import ImgMain from "./assets/WalpaperMain.png";
 
-// const Login = () => {
-//   return (
-//     <View style={estilos.container}>
-//       <View style={{ flex: 1 }}>
-//         <ImageBackground
-//           style={estilos.imagemCafe}
-//           source={ImgMain}
-//         ></ImageBackground>
-//       </View>
-//       <View style={estilos.login}>
-//         <Text style={estilos.textoLogin}>Login</Text>
-//         <Text>Preencha seus dados para continuar</Text>
-//       </View>
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-//       <View>
-//         <Text style={estilos.textoDefinicao}>EMAIL</Text>
-//         <TextInput 
-//         style={estilos.input}
-//         placeholder="Digite seu E-mail" />
+  const contexto = useContext(Contexto);
+  return (
+    <View style={estilos.container}>
+      <View style={{ flex: 1 }}>
+        <ImageBackground
+          style={estilos.imagemCafe}
+          source={ImgMain}
+        ></ImageBackground>
+      </View>
+      <View style={estilos.login}>
+        <Text style={estilos.textoLogin}>Login</Text>
+        <Text>Preencha seus dados para continuar</Text>
+      </View>
 
-//         <Text style={estilos.textoDefinicao}>PASSWORD</Text>
+      <View>
+        <Text style={estilos.textoDefinicao}>EMAIL</Text>
+        <TextInput 
+        style={estilos.input} 
+        placeholder="email"
+        value={email} 
+        onChangeText={setEmail}/>
 
-//         <TextInput
-//           style={estilos.input}
-//           secureTextEntry={true}
-//           placeholder="Digite sua senha"
-//         />
-//       </View>
+        <Text style={estilos.textoDefinicao}>PASSWORD</Text>
 
-//       <View styel={estilos.cadastro}>
-//         <TouchableOpacity
-//           onPressIn={() => {
-//             alert("Seus dados foram cadastrados!");
-//           }}
-//         >
-//           <View>
-//             <Text style={estilos.botaoCadastrar}>Cadastrar</Text>
-//           </View>
-//         </TouchableOpacity>
+        <TextInput 
+        style={estilos.input}
+        placeholder="senha"
+        value={password} 
+        onChangeText={setPassword}/>
 
-//         <Text style={estilos.signUp}>Signup!</Text>
-//       </View>
-//     </View>
-//   );
-// };
+      </View>
+
+      <View styel={estilos.cadastro}>
+        <TouchableOpacity
+          onPress={() => {
+            contexto.signUp(email, password)
+          }}
+        >
+          <View>
+            <Text style={estilos.botaoCadastrar}>Cadastrar</Text>
+          </View>
+        </TouchableOpacity>
+
+        <Text style={estilos.signUp}>Signup!</Text>
+      </View>
+    </View>
+  );
+};
 
 const Cadastro = () => {
   const [nome, setNome] = useState("")
@@ -72,17 +79,17 @@ const Cadastro = () => {
         <Text>Detalhes do Restaurante</Text>
       </View>
       <View>
-        <TextInput placeholder="Nome do Restaurante" value={nome} onChangeText={setNome} />
-        <TextInput placeholder="Endereço" value={endereco} onChangeText={setEndereço} />
-        <TextInput placeholder="Tipo de Comida" value={tipo} onChangeText={setTipo} />
+        <TextInput style={estilos.input} placeholder="Nome do Restaurante" value={nome} onChangeText={setNome} />
+        <TextInput style={estilos.input} placeholder="Endereço" value={endereco} onChangeText={setEndereço} />
+        <TextInput  style={estilos.input} placeholder="Tipo de Comida" value={tipo} onChangeText={setTipo} />
       </View>
       <View style={{ flexDirection: "row" }}>
-        <TextInput placeholder="Classificação" value={classificação} onChangeText={setClassificacao} />
-        <TextInput placeholder="Latitude" value={latitude} onChangeText={setLatitude} />
-        <TextInput placeholder="Longitude" value={longitude} onChangeText={setLongitude} />
+        <TextInput style={estilos.input} placeholder="Classificação" value={classificação} onChangeText={setClassificacao} />
+        <TextInput style={estilos.input} placeholder="Latitude" value={latitude} onChangeText={setLatitude} />
+        <TextInput style={estilos.input} placeholder="Longitude" value={longitude} onChangeText={setLongitude} />
       </View>
       <View>
-        <TextInput placeholder="Descrição" value={decricao} onChangeText={setDescricao} />
+        <TextInput style={estilos.input} placeholder="Descrição" value={decricao} onChangeText={setDescricao} />
 
         <TouchableOpacity
           onPress={() => {
@@ -167,14 +174,29 @@ const Main = () => {
   )
 }
 
+const API_KEY = "AIzaSyDwM3KBE2WK9NQ_58OEJAL86CHos2yxD2E";
+
+const apiLogin = axios.create({
+  baseURL: "https://identitytoolkit.googleapis.com/v1"
+})
+
 const api = axios.create({
   baseURL:"https://databs-b6b35-default-rtdb.firebaseio.com"
 })
 
 export default function App() {
-
+  const [token, setToken] = useState(null);
   const [lista, setLista] = useState([])
 
+
+  const signUp = (email, password) => { 
+    apiLogin.post( "/accounts:signUp?key=" + API_KEY, 
+        {email, password, returnSecureToken: true} )
+    .then( (resposta)=> {
+      setToken(resposta.data.idToken);
+    })
+    .catch( (err) => {alert("Erro ao fazer o registro " + err)})
+  }
 
   const salvar = (obj) => {
     api.post("/restaurantes.json",obj)
@@ -217,10 +239,11 @@ export default function App() {
       lista,
       salvar,
       lerDados,
-      apagar
+      apagar,
+      signUp
     }}>
       <View style={estilos.container}>
-        <Main/>
+        {token ? <Main/> :<Login/>}
       </View>
     </Contexto.Provider>
   );

@@ -7,6 +7,7 @@ const contextoInicial={
     editar:(obj)=>{},
     apagar:(obj)=>{},
     lerDados:()=>{},
+    signUp: ( email, password ) => {},
 
 }
 
