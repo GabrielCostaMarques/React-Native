@@ -1,86 +1,93 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  ImageBackground,
-  Button,
-} from "react-native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
-import ImgMain from "./assets/WalpaperMain.png";
+import React, { useState, useContext, useEffect } from "react";
+import {StyleSheet,Text,View,TextInput,TouchableOpacity,FlatList} from "react-native";
+//import MapView, {Marker} from 'react-native-maps'
+import axios from "axios";
+import {Entypo as Icon} from "@expo/vector-icons"
+import { Contexto } from "./contexto";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from "@react-navigation/native";
 
-const Login = () => {
-  return (
-    <View style={estilos.container}>
-      <View style={{ flex: 1 }}>
-        <ImageBackground
-          style={estilos.imagemCafe}
-          source={ImgMain}
-        ></ImageBackground>
-      </View>
-      <View style={estilos.login}>
-        <Text style={estilos.textoLogin}>Login</Text>
-        <Text>Preencha seus dados para continuar</Text>
-      </View>
+// import ImgMain from "./assets/WalpaperMain.png";
 
-      <View>
-        <Text style={estilos.textoDefinicao}>EMAIL</Text>
-        <TextInput style={estilos.input} placeholder="Digite seu E-mail" />
+// const Login = () => {
+//   return (
+//     <View style={estilos.container}>
+//       <View style={{ flex: 1 }}>
+//         <ImageBackground
+//           style={estilos.imagemCafe}
+//           source={ImgMain}
+//         ></ImageBackground>
+//       </View>
+//       <View style={estilos.login}>
+//         <Text style={estilos.textoLogin}>Login</Text>
+//         <Text>Preencha seus dados para continuar</Text>
+//       </View>
 
-        <Text style={estilos.textoDefinicao}>PASSWORD</Text>
+//       <View>
+//         <Text style={estilos.textoDefinicao}>EMAIL</Text>
+//         <TextInput 
+//         style={estilos.input}
+//         placeholder="Digite seu E-mail" />
 
-        <TextInput
-          style={estilos.input}
-          secureTextEntry={true}
-          placeholder="Digite sua senha"
-        />
-      </View>
+//         <Text style={estilos.textoDefinicao}>PASSWORD</Text>
 
-      <View styel={estilos.cadastro}>
-        <TouchableOpacity
-          onPressIn={() => {
-            alert("Seus dados foram cadastrados!");
-          }}
-        >
-          <View>
-            <Text style={estilos.botaoCadastrar}>Cadastrar</Text>
-          </View>
-        </TouchableOpacity>
+//         <TextInput
+//           style={estilos.input}
+//           secureTextEntry={true}
+//           placeholder="Digite sua senha"
+//         />
+//       </View>
 
-        <Text style={estilos.signUp}>Signup!</Text>
-      </View>
-    </View>
-  );
-};
+//       <View styel={estilos.cadastro}>
+//         <TouchableOpacity
+//           onPressIn={() => {
+//             alert("Seus dados foram cadastrados!");
+//           }}
+//         >
+//           <View>
+//             <Text style={estilos.botaoCadastrar}>Cadastrar</Text>
+//           </View>
+//         </TouchableOpacity>
+
+//         <Text style={estilos.signUp}>Signup!</Text>
+//       </View>
+//     </View>
+//   );
+// };
 
 const Cadastro = () => {
+  const [nome, setNome] = useState("")
+  const [endereco, setEndereço] = useState("")
+  const [tipo, setTipo] = useState("")
+  const [classificação, setClassificacao] = useState("")
+  const [latitude, setLatitude] = useState("")
+  const [longitude, setLongitude] = useState("")
+  const [decricao, setDescricao] = useState("")
+
+  const contexto = useContext(Contexto)
+
   return (
     <View>
       <View>
         <Text>Detalhes do Restaurante</Text>
       </View>
       <View>
-        <TextInput placeholder="Nome do Restaurante" />
-        <TextInput placeholder="Endereço" />
-        <TextInput placeholder="Tipo de Comida" />
+        <TextInput placeholder="Nome do Restaurante" value={nome} onChangeText={setNome} />
+        <TextInput placeholder="Endereço" value={endereco} onChangeText={setEndereço} />
+        <TextInput placeholder="Tipo de Comida" value={tipo} onChangeText={setTipo} />
+      </View>
+      <View style={{ flexDirection: "row" }}>
+        <TextInput placeholder="Classificação" value={classificação} onChangeText={setClassificacao} />
+        <TextInput placeholder="Latitude" value={latitude} onChangeText={setLatitude} />
+        <TextInput placeholder="Longitude" value={longitude} onChangeText={setLongitude} />
       </View>
       <View>
-        <Text>Classificação</Text>
-      </View>
-      <View>
-        <TextInput placeholder="Latitude" />
-        <TextInput placeholder="Longitude" />
-      </View>
-      <View>
-        <TextInput placeholder="Descrição" />
+        <TextInput placeholder="Descrição" value={decricao} onChangeText={setDescricao} />
 
         <TouchableOpacity
-          onPressIn={() => {
-            alert("Seus dados foram cadastrados!");
+          onPress={() => {
+            const obj = { nome, endereco, tipo, classificação, latitude, longitude }
+            contexto.salvar(obj);
           }}
         >
           <View>
@@ -92,15 +99,130 @@ const Cadastro = () => {
   );
 };
 
-const Tab = createNativeStackNavigator();
+
+const Item = (props) => {
+  return (
+    <View style={{ flex: 1 }} key={props.index}>
+      <Text>{props.item.nome}</Text>
+      <Text>{props.item.tipo}</Text>
+      <Icon name="trash" size={25} onPress={()=>{props.onApagar(props.item)}}/>
+    </View>
+  )
+}
+
+const Listagem = () => {
+  const contexto = useContext(Contexto)
+
+  return (
+    <View style={{ flex: 1 }}>
+      <Text>Listagem</Text>
+      <FlatList data={contexto.lista} renderItem={(flatProps)=><Item {...flatProps} onApagar={contexto.apagar} />} />
+    </View>
+  )
+}
+const Mapa = () => {
+  const contexto = useContext(Contexto)
+  return (
+    <View>
+      <Text>Mapa</Text>
+      {/* <MapView style={{flex:1}}
+        initialRegion={{
+          latitude:-23.545297195741348,
+          longitude:-46.64351000502243,
+          latitudeDelta:0.08,
+          longitudeDelta:0.08,
+        }}>
+
+          {contexto.lista.map((item, indice)=>{
+            return(
+
+              <Marker key={indice} coordinate={{
+              latitude: parseFloat(item.latitude),
+              longitude: parseFloat(item.longitude),}}
+              title={item.nome}
+              description={item.tipo}
+              />
+            )
+          })}
+          </MapView> */}
+    </View>
+  )
+}
+
+
+const BotomTab = createBottomTabNavigator();
+
+const Main = () => {
+  return (
+    <View style={{ flex: 1 }}>
+      <NavigationContainer>
+        <BotomTab.Navigator>
+          <BotomTab.Screen name="Cadastro" component={Cadastro} />
+          <BotomTab.Screen name="Listagem" component={Listagem} />
+          <BotomTab.Screen name="Mapa" component={Mapa}/>
+        </BotomTab.Navigator>
+      </NavigationContainer>
+    </View>
+
+  )
+}
+
+const api = axios.create({
+  baseURL:"https://databs-b6b35-default-rtdb.firebaseio.com"
+})
 
 export default function App() {
+
+  const [lista, setLista] = useState([])
+
+
+  const salvar = (obj) => {
+    api.post("/restaurantes.json",obj)
+    .then((resposta)=>{
+      alert("Objeto Gravado") 
+      lerDados();})
+    .catch((err)=>{alert("Erro ao Gravar"+err)})
+  }
+
+  const lerDados=()=>{
+    api.get("/restaurantes.json")
+    .then((resposta)=>{
+      const listaNova=[]
+      for(const chave in resposta.data){
+        const obj = resposta.data[chave];
+        obj.id=chave;
+        listaNova.push(obj)
+      }
+      setLista(listaNova)
+    })
+
+    .catch((err)=>{alert("Erro ao ler dados"+ err)})
+  }
+
+  useEffect(()=>{
+    lerDados();
+  },[])
+
+
+  const apagar=(obj)=>{
+    api.delete("/restaurantes/"+obj.id+".json")
+    .then((resposta)=>{
+      alert("Objeto Apagado") 
+      lerDados();})
+    .catch((err)=>{alert("Erro ao Apagar"+err)})
+  }
+  
   return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="Home" component={Login} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <Contexto.Provider value={{
+      lista,
+      salvar,
+      lerDados,
+      apagar
+    }}>
+      <View style={estilos.container}>
+        <Main/>
+      </View>
+    </Contexto.Provider>
   );
 }
 
