@@ -28,6 +28,8 @@ const schema = object({
   quantidade: number("Campo do tipo numérico").required("Campo obrigatório"),
   preco: string("String").required("Campo obrigatório"),
 });
+
+
 const Login = () => {
   const contexto = useContext(Contexto);
 
@@ -47,7 +49,6 @@ const Login = () => {
       .validate({ nome, quantidade, preco }, { abortEarly: false })
       .then(() => {
         contexto.gravar({ nome, quantidade, preco });
-        console.log("Carregou");
       })
       .catch((erro) => {
         erro.inner.forEach((error) => {
@@ -92,8 +93,19 @@ const Login = () => {
   );
 };
 
+
+const Listagem=({item})=>{
+  return(
+    <View style={{borderWidth:3, padding:10,marginBottom:20}}>
+      <Text style={{fontSize:16, fontWeight:"bold"}}>Nome: {item.nome}</Text>
+      <Text style={{fontSize:16, fontWeight:"bold"}}>Quantidade: {item.quantidade}</Text>
+      <Text style={{fontSize:16, fontWeight:"bold"}}>Preço: {item.preco}</Text>
+    </View>
+  )
+}
+
 export default function App() {
-  const [lista, setLista] = useState([]);
+  const [lista, setLista] = useState([{}]);
 
   const gravar = (obj) => {
     api
@@ -107,23 +119,20 @@ export default function App() {
   };
 
   const carregar = async () => {
-    api
-      .get("/produtos.json")
-      .then((resposta) => {
-        console.log("Função carregar");
-        const listaNova = [];
-        Object.keys(resposta.data).forEach((chave) => {
-          const obj = resposta.data[chave];
-          obj.id = chave;
-          listaNova.push(obj);
-        });
-        return listaNova;
-        console.log("Dados carregados com Sucesso");
-      })
-      .catch((error) => {
-        console.error("Erro ao carregar dados:", error);
-      });
+    api.get("/produtos.json")
+
+    .then((resposta)=>{
+      const listaNova=[]
+      for(const chave in resposta.data){
+          const obj=resposta.data[chave]
+          obj.id=chave;
+          listaNova.push(obj)
+      }
+      setLista(listaNova)
+    })
+    .catch((err)=>{alert("Erro ao ler a lista"+err)})
   };
+  
 
   const apagar = () => {
     api.delete("/produtos.json");
@@ -133,7 +142,8 @@ export default function App() {
   return (
     <Contexto.Provider value={{ carregar, gravar, apagar, editar, lista }}>
       <Login />
-    </Contexto.Provider>
+      <FlatList data={lista} renderItem={Listagem} keyExtractor={item=>item.id}/>
+    </Contexto.Provider>  
   );
 }
 
