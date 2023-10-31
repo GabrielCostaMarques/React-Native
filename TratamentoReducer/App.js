@@ -13,9 +13,9 @@ import axios from "axios";
 import { string, object, number } from "yup";
 
 const Contexto = createContext({
-  gravar: (obj) => {},
-  editar: () => {},
-  apagar: () => {},
+  gravar: (obj) => { },
+  editar: () => { },
+  apagar: () => { },
   lista: [],
 });
 
@@ -66,22 +66,15 @@ const Login = () => {
   return (
     <View style={styles.container}>
       <Text>Atividade 38</Text>
-      <TextInput placeholder="Nome" value={nome} onChangeText={setNome} />
-      <Text style={{ fontSize: 15, color: "red", fontWeight: "bold" }}>
-        {nomeErr}
-      </Text>
-      <TextInput
-        placeholder="Quantidade"
-        value={quantidade}
-        onChangeText={setQuantidade}
-      />
-      <Text style={{ fontSize: 15, color: "red", fontWeight: "bold" }}>
-        {quantidadeErr}
-      </Text>
-      <TextInput placeholder="Preco" value={preco} onChangeText={setPreco} />
-      <Text style={{ fontSize: 15, color: "red", fontWeight: "bold" }}>
-        {precoErr}
-      </Text>
+      <TextInput placeholder="Nome" value={nome} onChangeText={setNome} style={styles.inputForm}/>
+      <Text style={{ fontSize: 15, color: "red", fontWeight: "bold" }}>{nomeErr}</Text>
+
+      <TextInput placeholder="Quantidade"value={quantidade} onChangeText={setQuantidade} style={styles.inputForm}/>
+      <Text style={{ fontSize: 15, color: "red", fontWeight: "bold" }}>{quantidadeErr}</Text>
+
+      <TextInput placeholder="Preco" value={preco} onChangeText={setPreco}style={styles.inputForm} />
+      <Text style={{ fontSize: 15, color: "red", fontWeight: "bold" }}>{precoErr}</Text>
+      
       <Button title="Salvar" onPress={() => handleSalvar()} />
       <Button
         title="Apagar"
@@ -94,12 +87,12 @@ const Login = () => {
 };
 
 
-const Listagem=({item})=>{
-  return(
-    <View style={{borderWidth:3, padding:10,marginBottom:20}}>
-      <Text style={{fontSize:16, fontWeight:"bold"}}>Nome: {item.nome}</Text>
-      <Text style={{fontSize:16, fontWeight:"bold"}}>Quantidade: {item.quantidade}</Text>
-      <Text style={{fontSize:16, fontWeight:"bold"}}>Preço: {item.preco}</Text>
+const Listagem = ({ item }) => {
+  return (
+    <View style={styles.containerLista}>
+      <Text style={{ fontSize: 16, fontWeight: "bold" }}>Nome: {item.nome}</Text>
+      <Text style={{ fontSize: 16, fontWeight: "bold" }}>Quantidade: {item.quantidade}</Text>
+      <Text style={{ fontSize: 16, fontWeight: "bold" }}>Preço: {item.preco}</Text>
     </View>
   )
 }
@@ -121,29 +114,29 @@ export default function App() {
   const carregar = async () => {
     api.get("/produtos.json")
 
-    .then((resposta)=>{
-      const listaNova=[]
-      for(const chave in resposta.data){
-          const obj=resposta.data[chave]
-          obj.id=chave;
+      .then((resposta) => {
+        const listaNova = []
+        for (const chave in resposta.data) {
+          const obj = resposta.data[chave]
+          obj.id = chave;
           listaNova.push(obj)
-      }
-      setLista(listaNova)
-    })
-    .catch((err)=>{alert("Erro ao ler a lista"+err)})
+        }
+        setLista(listaNova)
+      })
+      .catch((err) => { alert("Erro ao ler a lista" + err) })
   };
-  
+
 
   const apagar = () => {
     api.delete("/produtos.json");
   };
-  const editar = () => {};
+  const editar = () => { };
 
   return (
     <Contexto.Provider value={{ carregar, gravar, apagar, editar, lista }}>
       <Login />
-      <FlatList data={lista} renderItem={Listagem} keyExtractor={item=>item.id}/>
-    </Contexto.Provider>  
+      <FlatList data={lista} renderItem={Listagem} keyExtractor={item => item.id} />
+    </Contexto.Provider>
   );
 }
 
@@ -154,4 +147,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+
+  containerLista: {
+    flex: 3,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 3,
+    padding: 10,
+    marginBottom: 20,
+  },
+  inputForm:{
+    borderWidth:1,
+    margin:15,
+    padding:20
+  }
 });
