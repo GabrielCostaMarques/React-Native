@@ -64,8 +64,8 @@ const Login = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text>Atividade 38</Text>
+    <View style={styles.campoInput}>
+      <Text style={{fontSize:20, fontWeight:"bold", textAlign:"center",}}>Atividade 38</Text>
       <TextInput placeholder="Nome" value={nome} onChangeText={setNome} style={styles.inputForm}/>
       <Text style={{ fontSize: 15, color: "red", fontWeight: "bold" }}>{nomeErr}</Text>
 
@@ -129,13 +129,17 @@ export default function App() {
 
   const apagar = () => {
     api.delete("/produtos.json");
+    setLista("")
   };
   const editar = () => { };
 
   return (
     <Contexto.Provider value={{ carregar, gravar, apagar, editar, lista }}>
-      <Login />
+      <View style={styles.container}>
+        <Login />
       <FlatList data={lista} renderItem={Listagem} keyExtractor={item => item.id} />
+      </View>
+      
     </Contexto.Provider>
   );
 }
@@ -154,11 +158,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderWidth: 3,
     padding: 10,
-    marginBottom: 20,
+    backgroundColor:"yellow",
+
   },
   inputForm:{
     borderWidth:1,
     margin:15,
     padding:20
+  },
+
+  campoInput:{
+    alignItems:"center",
+    justifyContent:"center",
+    flex:7,
+    width:"100%",
+    marginBottom:20,
+    backgroundColor:"lightgray"
   }
 });
