@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 import axios from "axios";
@@ -65,17 +66,19 @@ const Login = () => {
 
   return (
     <View style={styles.campoInput}>
-      <Text style={{fontSize:20, fontWeight:"bold", textAlign:"center",}}>Atividade 38</Text>
-      <TextInput placeholder="Nome" value={nome} onChangeText={setNome} style={styles.inputForm}/>
+      <Text style={{ fontSize: 20, fontWeight: "bold", textAlign: "center", }}>Atividade 38</Text>
+      <TextInput placeholder="Nome" value={nome} onChangeText={setNome} style={styles.inputForm} />
       <Text style={{ fontSize: 15, color: "red", fontWeight: "bold" }}>{nomeErr}</Text>
 
-      <TextInput placeholder="Quantidade"value={quantidade} onChangeText={setQuantidade} style={styles.inputForm}/>
+      <TextInput placeholder="Quantidade" value={quantidade} onChangeText={setQuantidade} style={styles.inputForm} />
       <Text style={{ fontSize: 15, color: "red", fontWeight: "bold" }}>{quantidadeErr}</Text>
 
-      <TextInput placeholder="Preco" value={preco} onChangeText={setPreco}style={styles.inputForm} />
+      <TextInput placeholder="Preco" value={preco} onChangeText={setPreco} style={styles.inputForm} />
       <Text style={{ fontSize: 15, color: "red", fontWeight: "bold" }}>{precoErr}</Text>
-      
-      <Button title="Salvar" onPress={() => handleSalvar()} />
+
+      <TouchableOpacity style={styles.btnHandle}onPress={() => handleSalvar()}>
+        <Text>Salvar</Text>
+      </TouchableOpacity>
       <Button
         title="Apagar"
         onPress={() => {
@@ -137,9 +140,9 @@ export default function App() {
     <Contexto.Provider value={{ carregar, gravar, apagar, editar, lista }}>
       <View style={styles.container}>
         <Login />
-      <FlatList data={lista} renderItem={Listagem} keyExtractor={item => item.id} />
+        <FlatList data={lista} renderItem={Listagem} keyExtractor={item => item.id} />
       </View>
-      
+
     </Contexto.Provider>
   );
 }
@@ -158,21 +161,27 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderWidth: 3,
     padding: 10,
-    backgroundColor:"yellow",
+    backgroundColor: "yellow",
 
   },
-  inputForm:{
+  inputForm: {
+    borderWidth: 1,
+    margin: 15,
+    padding: 20
+  },
+
+  campoInput: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 7,
+    width: "100%",
+    marginBottom: 20,
+    backgroundColor: "lightgray"
+  },
+
+  btnHandle:{
+    backgroundColor:"blue",
+    paddingHorizontal:50,
     borderWidth:1,
-    margin:15,
-    padding:20
-  },
-
-  campoInput:{
-    alignItems:"center",
-    justifyContent:"center",
-    flex:7,
-    width:"100%",
-    marginBottom:20,
-    backgroundColor:"lightgray"
   }
 });
